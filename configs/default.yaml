@@ -1,0 +1,126 @@
+# Training and optimization configs
+train:
+  num_epochs: 1000
+  batch_size: 1
+  num_workers: 4
+  # Prints number of parameters in the model
+  print_model_stats: True
+  # Re-weight samples that are less frequent in the training set
+  sample_reweighting: True
+  # Indicates whether visualizations are made during test time
+  eval_visualization: False
+  # Indicates whether Wandb is used to keep track of runs
+  use_wandb: False
+  wand_project_name: echognn
+  wandb_mode: online
+
+  # Objective functions
+  criteria:
+
+    # Regression loss used for EF predictions
+    regression:
+      # Supported losses are mae, smoothmae, mse
+      name: mae
+      # Use shrinkage loss as described in:
+      # https://www.ecva.net/papers/eccv_2018/papers_ECCV/papers/Xiankai_Lu_Deep_Regression_Tracking_ECCV_2018_paper.pdf
+      apply_shrinkage: False
+      # a term in shrinkage loss
+      shrinkage_a: 0.0
+      # c term in shrinkage loss
+      shrinkage_c: 0.0
+
+    # Classification loss used to encourage learning of clinical EF categories
+    classification:
+      # Only crossentropy is supported
+      name: crossentropy
+      # Total Loss = Other loss terms + lambda * classification_loss
+      lambda: 0.0
+
+    # Sparsity loss used to encourage sparse learned weights
+    sparsity:
+      name: l1sparsity
+      node_lambda: 0.0
+      edge_lambda: 0.0
+
+  # Training optimizer configs
+  optimizer:
+    name: adam
+    lr: 0.00005
+    weight_decay: 0.00001
+
+  # LR Scheduler
+  scheduler:
+    name: multi-step
+    milestones: [30, 70, 150, 200]
+    gamma: 0.5
+
+# Evaluation metrics
+eval:
+  # Report these metrics
+  standards: [r2, mae, f1score, rmse]
+  # Save checkpoints based on this metric
+  standard: r2
+  # Save checkpoints based on whether the metric is to be maximized or minimized
+  minimize: False
+
+# Model-specific configs
+model:
+  # Path to checkpoint to continue training from or for evaluation (testing)
+  checkpoint_path: D:\Workspace\RCL\repositories\echognn\logs\teaching-well-cont-cont\checkpoint_best.pth
+  # Path to pretrained model
+  #TODO: Make it want the complete path
+  pretrained_path:
+
+  # The Video Encoder parameters
+  video_encoder:
+    # Supported model is 3dconv (inspect src/core/models.py for details on model params)
+    name: 3dconv
+    out_channels: [ 16, 32, 64, 128, 256 ]
+    kernel_sizes: 3
+    pool_sizes: 2
+    output_dim: 256
+    cnn_dropout_p: 0.05
+    fc_dropout_p: 0.5
+    add_positional_embeddings: True
+
+  # The Attention Encoder Parameters
+  attention_encoder:
+    # node: only node weights, edge: only edge weights, node&edge: both edge and node weights are produced
+    name: node&edge
+    fc_dropout_p: 0.5
+    hidden_dim: 128
+
+  # The Graph Regressor parameters
+  graph_regressor:
+    name: gnn
+    gnn_hidden_dims: [128, 64, 32]
+    fc_hidden_dim: 16
+    dropout_p: 0.5
+    # TODO: remove
+    num_classes: 4
+
+# Dataset configs
+dataset:
+  # Path to dataset
+  dataset_path: D:\Workspace\RCL\datasets\echonet
+  # Name of the dataset
+  name: echonet
+  # The mean and std for the Echonet-Dynamic dataset uses to standardize data
+  mean: 0.1289
+  std: 0.1911
+  # The label string indicating the label column in the provided dataset csv
+  label_string: EF
+  # Divide labels by
+  label_div: 100
+  # Indicates the number of random clips extracted from each video during training
+  num_clips_per_vid: 3
+  # Approximate number of frames per cardiac cycle
+  num_frames_per_cycle: 64
+  # Number of frames per clip
+  num_frames: 64
+  # EF categories for the classification head
+  classification_classes: [0, 30, 40, 55, 100]
+  # Indicates whether LV zoom-in augmentation is used during training
+  zoom_aug: True
+  # The overlap between consecutive clips during test time (0 for no overlap)
+  test_clip_overlap: 0

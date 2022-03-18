@@ -1,0 +1,83 @@
+# Training and optimization configs
+train:
+  num_epochs: 1000
+  batch_size: 10
+  num_workers: 4
+  # Prints number of parameters in the model
+  print_model_stats: True
+  use_wandb: False
+  wand_project_name: echognn-pretrain
+  wandb_mode: online
+
+  # Objective functions
+  criteria:
+    node_location:
+      name: bce
+      # Weight given to node with a label of 1
+      reweight_ones_by: 1
+
+    edge_location:
+      name: bce
+      # Weight given to node with a label of 1
+      reweight_ones_by: 1
+
+  # Training optimizer configs
+  optimizer:
+    name: adam
+    lr: 0.00005
+    weight_decay: 0.00001
+
+  # LR Scheduler
+  scheduler:
+    name: multi-step
+    milestones: [30, 70, 150, 200]
+    gamma: 0.5
+
+# Evaluation metrics
+eval:
+  # Report these metrics
+  standards: [node_binary_accuracy, edge_binary_accuracy]
+  # Save checkpoints based on this metric
+  standard: pretrain_loss
+  # Save checkpoints based on whether the metric is to be maximized or minimized
+  minimize: True
+
+# Model-specific configs
+model:
+  checkpoint_path:
+  # The Video Encoder parameters
+  video_encoder:
+    # Supported model is 3dconv (inspect src/core/models.py for details on model params)
+    name: 3dconv
+    out_channels: [ 16, 32, 64, 128, 256 ]
+    kernel_sizes: 3
+    pool_sizes: 2
+    output_dim: 256
+    cnn_dropout_p: 0.05
+    fc_dropout_p: 0.5
+    add_positional_embeddings: True
+
+  # The Attention Encoder Parameters
+  attention_encoder:
+    # node: only node weights, edge: only edge weights, node&edge: both edge and node weights are produced
+    name: node&edge
+    fc_dropout_p: 0.5
+    hidden_dim: 128
+
+# Dataset configs
+dataset:
+  # Path to dataset
+  dataset_path: D:\Workspace\RCL\datasets\echonet
+  # Name of the dataset
+  name: echonet-pretrain
+  # The mean and std for the Echonet-Dynamic dataset uses to standardize data
+  mean: 0.1289
+  std: 0.1911
+  # Number of frames per clip
+  num_frames: 64
+  # Indicates whether LV zoom-in augmentation is used during training
+  zoom_aug: False
+  # Number of frames to consider before and after each ES/ED frames in the loss function
+  num_neighbourhood_frames: 10
+  # Spread the label of ES/ED by this many frames
+  spread_label_by: 2
