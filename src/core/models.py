@@ -133,8 +133,8 @@ class NRIMLP(nn.Module):
                    inputs: torch.tensor) -> torch.tensor:
         """
         Batch normalization after reshaping input to correct shape
-        :param inputs: torch.tensor, input tensor of shape #TODO
-        :return: Tensor of shape #TODO
+        :param inputs: torch.tensor, input tensor of shape N*num_frames*1*d
+        :return: Tensor of shape N*num_frames*1*d
         """
 
         x = inputs.view(inputs.size(0) * inputs.size(1), -1)
@@ -550,7 +550,7 @@ class MLPEdgeEncoder(nn.Module):
         Model's forward propagation
 
         :param x: torch.tensor, input tensor of shape [N*num_frames*num_vids_per_sample*num_clips_per_vid, input_dim]
-        :return: Torch tensor of shape N*(num_frames*num_vids_per_samples*(num_frames*num_vids_per_samples-1))*d
+        :return: Torch tensor of shape N*(num_frames*num_vids_per_samples*(num_frames*num_vids_per_samples-1))*1
         """
 
         x = x.view(x.size(0) // (self.num_frames * self.num_vids_per_sample),
@@ -694,7 +694,7 @@ class MLPNodeEncoder(nn.Module):
         Model's forward propagation
 
         :param x: torch.tensor, input tensor of shape [N*num_frames*num_vids_per_sample*num_clips_per_vid, input_dim]
-        :return: Torch tensor of shape #TODO
+        :return: Torch tensor of shape Torch tensor of shape N*num_frames*1
         """
 
         x = x.view(x.size(0) // (self.num_frames * self.num_vids_per_sample),
@@ -769,7 +769,7 @@ class AttentionEncoder(nn.Module):
         Forward propagation
 
         :param x: torch.tensor, input tensor of shape N*num_frames*d
-        :return: Tensor of shape #TODO
+        :return: tuple of node and edge weights
         """
 
         x = x.view(x.shape[0]*x.shape[1], -1)
@@ -801,14 +801,11 @@ class GNNEFRegressor(nn.Module):
     classification_mlp: torch.nn.Module, PyTorch model for the classification head
     num_vids_per_sample: int, number of videos per patient
     num_clips_per_vid: int, number of clips per video
-    # TODO: see how this works for test time
     num_frames: int, number of frame per clip
-    # TODO: update attributes for all classes
 
     Methods
     -------
     forward(x, adj, frame_weights): model's forward propagation
-    # TODO: ensure forward is correct for all
     """
     def __init__(self,
                  input_dim=128,

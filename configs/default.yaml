@@ -1,7 +1,7 @@
 # Training and optimization configs
 train:
   num_epochs: 1000
-  batch_size: 1
+  batch_size: 4
   num_workers: 4
   # Prints number of parameters in the model
   print_model_stats: True
@@ -67,7 +67,7 @@ eval:
 model:
   # Path to checkpoint to continue training from or for evaluation (testing)
   checkpoint_path:
-  # Path to pretrained path
+  # Path to pretrained model
   pretrained_path:
 
   # The Video Encoder parameters
@@ -95,8 +95,6 @@ model:
     gnn_hidden_dims: [128, 64, 32]
     fc_hidden_dim: 16
     dropout_p: 0.5
-    # TODO: remove
-    num_classes: 4
 
 # Dataset configs
 dataset:

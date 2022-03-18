@@ -23,7 +23,11 @@ def build(config: dict,
     """
 
     config = deepcopy(config)
-    _ = config.pop('checkpoint_path')
+    try:
+        _ = config.pop('checkpoint_path')
+        _ = config.pop('pretrained_path')
+    except KeyError:
+        pass
 
     # Create the models
     model = {}

@@ -157,6 +157,8 @@ class Engine(object):
             self.model_config['graph_regressor'].update({'num_frames': self.data_config['num_frames']})
             self.model_config['graph_regressor'].update({'num_clips_per_vid': self.data_config['num_clips_per_vid']})
             self.model_config['graph_regressor'].update({'input_dim': self.model_config['video_encoder']['output_dim']})
+            self.model_config['graph_regressor'].update({'num_classes': len(self.data_config['classification_classes'])
+                                                                        - 1})
 
             # Extract regression loss configs
             self.apply_shrinkage = self.train_config['criteria']['regression'].pop('apply_shrinkage')
@@ -238,7 +240,6 @@ class Engine(object):
                                                        phase=phase)
         self.misc = self.checkpointer.load(checkpoint_path=self.model_config.get('checkpoint_path', ''))
 
-        # TODO: extend parallel models to GNNs
         if self.num_devices > 1:
             self.logger.info("Using data parallel for the Video Encoder.")
             self.model['video_encoder'] = torch.nn.DataParallel(self.model['video_encoder'],

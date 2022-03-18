@@ -87,7 +87,7 @@ class CustomCheckpointer(object):
         except AttributeError:
             checkpoint['attention_encoder_model'] = self.model['attention_encoder'].state_dict()
 
-        if self.phase == 'training':
+        if self.phase != 'pretrain':
             try:
                 checkpoint['graph_regressor_model'] = self.model['graph_regressor'].module.state_dict()
             except AttributeError:
@@ -138,7 +138,7 @@ class CustomCheckpointer(object):
             self.model['video_encoder'].load_state_dict(checkpoint.pop('embedder_model'))
             self.model['attention_encoder'].load_state_dict(checkpoint.pop('encoder_model'))
 
-            if self.phase == 'training':
+            if self.phase != 'pretrain':
                 self.model['graph_regressor'].load_state_dict(checkpoint.pop('regressor_model'))
 
             # Load optimizers

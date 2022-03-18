@@ -291,6 +291,6 @@ class F1ScoreEvaluator(object):
         :return: F1 score
         """
 
-        self.score = f1_score(y_true=self.y_true < 0.4, y_pred=self.y_pred < self.threshold)
+        self.score = f1_score(y_true=self.y_true < self.threshold, y_pred=self.y_pred < self.threshold)
 
         return self.score

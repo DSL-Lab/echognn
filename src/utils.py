@@ -186,12 +186,12 @@ def save_echo_graph(echo_clip: numpy.ndarray,
                     loss: float = None):
     """
 
-    :param echo_clip: numpy.ndarray, echo frames of shape T*W*H TODO: check if dims are correct
-    :param node_weights: numpy.ndarray, array containing node weights of shape T*1 TODO: check if dims are correct
-    :param edge_weights: numpy.ndarray, array containing edge weights of shape T*T TODO: check if dims are correct
+    :param echo_clip: numpy.ndarray, echo frames of shape T*W*H
+    :param node_weights: numpy.ndarray, array containing node weights of shape T*1
+    :param edge_weights: numpy.ndarray, array containing edge weights of shape T*T
     :param es_frame_idx: int, index indicating which frame is the labelled ES
     :param ed_frame_idx: int, index indicating which frame is the labelled ED
-    :param all_frame_idx: numpy.ndarray, list indicating the frame indices of the clip within original echo video TODO: check type
+    :param all_frame_idx: numpy.ndarray, list indicating the frame indices of the clip within original echo video
     :param clip_num: int, the clip number for sample
     :param save_path: str, path to save visualization to
     :param experiment_name: str, sub directory in /save_path
@@ -593,7 +593,6 @@ def compute_ed_frame_distance(ed_frame_true: int,
 
         except IndexError:
 
-            #TODO: find more graceful solution
             if binary_weights[clip_ed_idx - 1] == 0:
                 summary_dict['dist'].append(1)
                 return

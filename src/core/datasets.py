@@ -594,7 +594,6 @@ class PretrainEchoNetEfDataset(Dataset, ABC):
 
         label = np.zeros(video_num_frames)
 
-        # TODO: check if the +1 is required
         label[max(primary_foi-self.spread_label_by, 0):
               min(primary_foi+self.spread_label_by + 1, video_num_frames)] = 1
         label[max(secondary_foi-self.spread_label_by, 0):
