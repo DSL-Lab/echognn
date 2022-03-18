@@ -102,7 +102,7 @@ model:
 # Dataset configs
 dataset:
   # Path to dataset
-  dataset_path: D:\Workspace\RCL\datasets\echonet
+  dataset_path: <path_to_dataset>
   # Name of the dataset
   name: echonet
   # The mean and std for the Echonet-Dynamic dataset uses to standardize data
