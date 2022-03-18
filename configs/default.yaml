@@ -66,9 +66,8 @@ eval:
 # Model-specific configs
 model:
   # Path to checkpoint to continue training from or for evaluation (testing)
-  checkpoint_path: D:\Workspace\RCL\repositories\echognn\logs\teaching-well-cont-cont\checkpoint_best.pth
-  # Path to pretrained model
-  #TODO: Make it want the complete path
+  checkpoint_path:
+  # Path to pretrained path
   pretrained_path:
 
   # The Video Encoder parameters
