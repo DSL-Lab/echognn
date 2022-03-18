@@ -27,7 +27,9 @@ performance that is on par with state of the art and provides explain-
 ability, which is crucial given the high inter-observer variability inherent
 in this task.
 
-<img alt="EchoGNN overall architecture" src="./echognn.PNG" width="500"/>
+<p align="center">
+  <img alt="EchoGNN overall architecture" src="./echognn.PNG" width="700"/>
+</p>
 
 ## Reproducing MICCAI 2022 Results
 To be added.
