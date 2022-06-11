@@ -16,7 +16,7 @@ from src.utils import draw_ef_plots
 try:
     import wandb
 except ImportError:
-    print('wandb must be installed if use_wandb is set to True!')
+    print('engine.py: wandb must be installed if use_wandb is set to True!')
 
 
 class Engine(object):

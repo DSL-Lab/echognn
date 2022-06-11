@@ -1,12 +1,12 @@
 # Training and optimization configs
 train:
-  num_epochs: 1000
-  batch_size: 4
-  num_workers: 4
+  num_epochs: 10000
+  batch_size: 80
+  num_workers: 0
   # Prints number of parameters in the model
   print_model_stats: True
   # Re-weight samples that are less frequent in the training set
-  sample_reweighting: True
+  sample_reweighting: False
   # Indicates whether visualizations are made during test time
   eval_visualization: False
   # Indicates whether Wandb is used to keep track of runs
@@ -34,7 +34,7 @@ train:
       # Only crossentropy is supported
       name: crossentropy
       # Total Loss = Other loss terms + lambda * classification_loss
-      lambda: 0.0
+      lambda: 0.001
 
     # Sparsity loss used to encourage sparse learned weights
     sparsity:
@@ -45,13 +45,13 @@ train:
   # Training optimizer configs
   optimizer:
     name: adam
-    lr: 0.00005
+    lr: 0.0001
     weight_decay: 0.00001
 
   # LR Scheduler
   scheduler:
     name: multi-step
-    milestones: [30, 70, 150, 200]
+    milestones: [50, 150, 200]
     gamma: 0.5
 
 # Evaluation metrics
@@ -66,7 +66,7 @@ eval:
 # Model-specific configs
 model:
   # Path to checkpoint to continue training from or for evaluation (testing)
-  checkpoint_path:
+  checkpoint_path: ./trained_models/miccai2022.pth
   # Path to pretrained model
   pretrained_path:
 
@@ -78,7 +78,7 @@ model:
     kernel_sizes: 3
     pool_sizes: 2
     output_dim: 256
-    cnn_dropout_p: 0.05
+    cnn_dropout_p: 0.1
     fc_dropout_p: 0.5
     add_positional_embeddings: True
 

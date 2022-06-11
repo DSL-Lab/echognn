@@ -19,7 +19,7 @@ except ImportError:
 try:
     import wandb
 except ImportError:
-    print('wandb must be installed if use_wandb is set to True!')
+    print('utils.py: wandb must be installed if use_wandb is set to True!')
 
 
 def create_logger(name: str) -> logging.Logger:
