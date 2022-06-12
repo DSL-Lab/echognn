@@ -5,34 +5,23 @@ Official PyTorch implementation for:
 **list of authors**, [EchoGNN: Explainable Ejection Fraction Estimation with Graph Neural Networks](**link to paper**)(**conf name**)
 
 ## Abstract
-Ejection fraction (EF) is a key indicator of cardiac function,
-allowing identification of patients prone to heart dysfunctions such as
-heart failure. EF is estimated from cardiac ultrasound videos known as
-echocardiograms (echo) by manually tracing the left ventricle and es-
-timating its volume on certain frames. These estimations exhibit high
-inter-observer variability due to the manual process and varying video
-quality. Such sources of inaccuracy and the need for rapid assessment
-necessitate the need for reliable and explainable machine learning tech-
-niques. In this work, we introduce EchoGNN, a model based on graph
-neural networks (GNNs) to estimate EF from echo videos. Our model
-first infers a latent echo-graph from the frames of one or multiple echo
-cine series. It then estimates weights over nodes and edges of this graph,
-indicating the importance of individual frames that aid EF estimation.
-A GNN regressor uses this weighted graph to predict EF. We show,
-qualitatively and quantitatively, that the learned graph weights provide
-explainability through identification of critical frames for EF estimation,
-which can be used to determine when human intervention is required. On
-EchoNet-Dynamic public EF dataset, EchoGNN achieves EF prediction
-performance that is on par with state of the art and provides explain-
-ability, which is crucial given the high inter-observer variability inherent
-in this task.
+Ejection fraction (EF) is a key indicator of cardiac function, allowing identification of patients prone to heart dysfunctions such as heart failure. EF is estimated from cardiac ultrasound videos known as echocardiograms (echo) by manually tracing the left ventricle and estimating its volume on certain frames. These estimations exhibit high inter-observer variability due to the manual process and varying video quality. Such sources of inaccuracy and the need for rapid assessment necessitate the need for reliable and explainable machine learning techniques. In this work, we introduce EchoGNN, a model based on graph neural networks (GNNs) to estimate EF from echo videos. Our model first infers a latent echo-graph from the frames of one or multiple echo cine series. It then estimates weights over nodes and edges of this graph, indicating the importance of individual frames that aid EF estimation. A GNN regressor uses this weighted graph to predict EF. We show, qualitatively and quantitatively, that the learned graph weights provide explainability through identification of critical frames for EF estimation, which can be used to determine when human intervention is required. On EchoNet-Dynamic public EF dataset, EchoGNN achieves EF prediction performance that is on par with state of the art and provides explainability, which is crucial given the high inter-observer variability inherent in this task.
 
 <p align="center">
   <img alt="EchoGNN overall architecture" src="./echognn.PNG" width="700"/>
 </p>
 
 ## Reproducing MICCAI 2022 Results
-To be added.
+To reproduce the exact results reported in our MICCAI 2022 submission, follow the steps below:
+1. Install the required packages by following the instructions in Section [Requirements](#requirements)
+2. Download the dataset as mentioned in Section [Dataset](#dataset).
+3. Use the instructions in Section [Preprocessing](#preprocessing) to preprocess EchoNet's CSV file.
+4. In the default.yaml config file provided in the configs/ directory, add the path to your dataset to dataset.dataset_path
+5. Please ensure that in the config file, the path to the trained model is specified as ./trained_models/miccai2022.pth (under model.checkpoint_path)
+6. Run the following command:
+```
+python run.py --config_path ./configs/default.yaml --test"
+```
 
 ## Requirements
 To install the requirements (preferably in a virtual env), run the following command:
@@ -49,7 +38,7 @@ pip install prettytable
 EchoNet-Dynamic public EF dataset is used for this project. This dataset can be accessed
 [here](https://echonet.github.io/dynamic/index.html).
 Feel free to download the dataset in any convenient location and provide its directory in the config file as described 
-in section [Config File](#config-file)
+in Section [Config File](#config-file)
 
 ## Preprocessing 
 Since ES/ED frame locations are used to assess model's performance, we need to have this information in the CSV file 
